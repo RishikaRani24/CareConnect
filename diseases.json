@@ -1,0 +1,22 @@
+[
+  { "disease": "Dengue", "symptoms": "Fever, headache, joint pain", "prevention": "Avoid mosquito bites, use mosquito nets" },
+  { "disease": "Flu", "symptoms": "Fever, cough, sore throat, fatigue", "prevention": "Vaccination, hand hygiene, avoid close contact" },
+  { "disease": "Malaria", "symptoms": "High fever, chills, sweating", "prevention": "Mosquito control, bed nets, prophylactic medicine" },
+  { "disease": "COVID-19", "symptoms": "Fever, cough, difficulty breathing, loss of taste or smell", "prevention": "Mask, vaccination, hand hygiene, social distancing" },
+  { "disease": "Tuberculosis", "symptoms": "Chronic cough, chest pain, weight loss, night sweats", "prevention": "Vaccination (BCG), good ventilation, avoid contact with TB patients" },
+  { "disease": "Typhoid", "symptoms": "Fever, abdominal pain, diarrhea or constipation", "prevention": "Safe drinking water, hand hygiene, vaccination" },
+  { "disease": "Cholera", "symptoms": "Severe watery diarrhea, dehydration, vomiting", "prevention": "Safe water, good sanitation, oral cholera vaccine" },
+  { "disease": "Hepatitis A", "symptoms": "Fatigue, jaundice, abdominal pain, nausea", "prevention": "Vaccination, safe food and water" },
+  { "disease": "Hepatitis B", "symptoms": "Jaundice, fatigue, abdominal pain", "prevention": "Vaccination, safe sex, avoid sharing needles" },
+  { "disease": "Hepatitis C", "symptoms": "Fatigue, liver damage, jaundice", "prevention": "Safe injections, avoid sharing needles, safe sex" },
+  { "disease": "Pneumonia", "symptoms": "Cough, fever, chest pain, shortness of breath", "prevention": "Vaccination, hand hygiene, good nutrition" },
+  { "disease": "Asthma", "symptoms": "Wheezing, coughing, shortness of breath", "prevention": "Avoid triggers, use inhalers, regular checkups" },
+  { "disease": "Diabetes", "symptoms": "Frequent urination, thirst, fatigue", "prevention": "Healthy diet, exercise, regular monitoring" },
+  { "disease": "Hypertension", "symptoms": "Often none, sometimes headache or dizziness", "prevention": "Low-salt diet, exercise, regular blood pressure check" },
+  { "disease": "Heart Attack", "symptoms": "Chest pain, shortness of breath, sweating", "prevention": "Healthy diet, exercise, avoid smoking, regular checkups" },
+  { "disease": "Stroke", "symptoms": "Sudden weakness, trouble speaking, dizziness", "prevention": "Control blood pressure, no smoking, healthy lifestyle" },
+  { "disease": "Chickenpox", "symptoms": "Itchy rash, fever, tiredness", "prevention": "Vaccination, avoid contact with infected persons" },
+  { "disease": "Measles", "symptoms": "Fever, cough, runny nose, rash", "prevention": "MMR vaccination" },
+  { "disease": "Mumps", "symptoms": "Swollen salivary glands, fever, headache", "prevention": "MMR vaccination" },
+  { "disease": "Polio", "symptoms": "Fever, headache, paralysis in severe cases", "prevention": "Polio vaccination (OPV/IPV)" }
+]

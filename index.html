@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Care Connect — Multilingual Chatbot</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,Segoe UI,Arial,sans-serif;background:#f5f8fb;color:#0f1724;line-height:1.4}
+    header{background:#fff;padding:14px 28px;border-bottom:1px solid #e6eef8;position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center}
+    .brand{color:#0b70d1;font-weight:700;font-size:20px}
+    .nav a{color:#0b70d1;text-decoration:none;margin-left:18px;font-weight:500}
+    #langSelect{margin-left:18px;padding:4px 6px;border-radius:6px;border:1px solid #ccd;cursor:pointer}
+
+    .container{max-width:980px;margin:28px auto;padding:0 18px}
+    h1{font-size:34px;margin-bottom:8px;color:#0b2430}
+    .subtitle{color:#475569;margin-bottom:18px}
+
+    .btn-group{display:flex;gap:12px;margin-bottom:18px}
+    .btn{background:#0b70d1;color:#fff;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 6px 18px rgba(11,112,209,.12)}
+    .btn.secondary{background:#eef6ff;color:#0b70d1;box-shadow:none}
+
+    .features{display:flex;gap:18px;margin:18px 0 28px;flex-wrap:wrap}
+    .feature{flex:1;min-width:180px;background:#fff;padding:18px;border-radius:12px;text-align:center;box-shadow:0 6px 18px rgba(9,30,66,.04)}
+    .feature h3{color:#0b70d1;margin-bottom:6px;font-size:20px}
+    .feature p{color:#475569}
+
+    .chatcard{background:#fff;border-radius:14px;padding:22px;box-shadow:0 12px 30px rgba(11,112,209,.06);margin-bottom:28px}
+    .chat-meta{color:#64748b;text-align:right;font-size:13px;margin-bottom:6px}
+    .bot-bubble{display:inline-block;background:#0b70d1;color:#fff;padding:14px 18px;border-radius:14px;border-bottom-left-radius:4px;max-width:86%;margin-bottom:12px}
+    .user-bubble{display:inline-block;background:#eef2f7;color:#0b2c4a;padding:12px 14px;border-radius:12px;border-bottom-right-radius:4px;max-width:86%;margin-bottom:12px}
+
+    .quick-buttons{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 14px}
+    .quick-buttons button{background:#f1f5f9;border:none;padding:8px 12px;border-radius:10px;color:#0b70d1;cursor:pointer}
+
+    #chat-area{min-height:170px;max-height:300px;overflow:auto;padding:10px;border-radius:10px;border:1px solid #eef2f7;margin-top:8px}
+    .msg{margin-bottom:10px;white-space:pre-wrap}
+
+    .results{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+    .dcard{background:#f8fbff;border-radius:12px;padding:12px;border:1px solid #e6f0ff}
+    .dcard h4{margin-bottom:8px;color:#0b70d1}
+    .dcard p{color:#334155;font-size:14px;margin-bottom:6px}
+    .dcard small{color:#475569}
+
+    .chat-input{display:flex;gap:8px;margin-top:12px}
+    .chat-input input{flex:1;padding:12px;border-radius:10px;border:1px solid #e6eef8}
+    .chat-input button{background:#0b70d1;color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer}
+
+    footer{color:#64748b;text-align:center;padding:18px 8px}
+    mark{background:rgba(11,112,209,.12);color:#0b70d1;padding:0 3px;border-radius:3px}
+    @media(max-width:560px){h1{font-size:24px}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand" id="brand">Care Connect</div>
+  <div class="nav">
+    <a href="#" id="navHome">Home</a>
+    <a href="#" id="navResources">Resources</a>
+    <select id="langSelect">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="or">ଓଡ଼ିଆ</option>
+    </select>
+  </div>
+</header>
+
+<div class="container">
+  <h1 id="mainTitle">AI-Driven Public Health Chatbot for Disease Awareness</h1>
+  <div class="subtitle" id="subTitle">
+    Quick guidance about symptoms, prevention and when to seek care. (Educational only)
+  </div>
+
+  <div class="btn-group">
+    <button class="btn" id="askSymptomsBtn">Ask about symptoms</button>
+    <button class="btn secondary" id="exploreBtn">Explore resources</button>
+  </div>
+
+  <div class="features">
+    <div class="feature"><h3>24/7</h3><p id="f1">availability</p></div>
+    <div class="feature"><h3>50+</h3><p id="f2">topics covered</p></div>
+    <div class="feature"><h3 id="f3title">Privacy</h3><p id="f3">first design</p></div>
+  </div>
+
+  <div class="chatcard">
+    <div class="chat-meta" id="infoOnly">Informational only</div>
+    <div id="chat-area">
+      <div class="bot-bubble msg" id="greetMsg">
+        Hi, I’m Care Connect — your public health companion. I provide general information about diseases and prevention. I’m not a doctor.
+      </div>
+    </div>
+
+    <div class="quick-buttons" id="quickBtns"></div>
+    <div id="results" class="results" style="display:none;"></div>
+
+    <div class="chat-input">
+      <input id="userInput" placeholder="Type symptoms (e.g., fever, cough, fatigue)..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+</div>
+
+<footer id="footerNote">
+  Disclaimer: This tool is for educational purposes only and does not provide medical advice. For emergencies, call local emergency services.
+</footer>
+
+<!-- --------- Multilingual text + switch --------- -->
+<script>
+const translations = {
+  en:{brand:"Care Connect",navHome:"Home",navResources:"Resources",
+      mainTitle:"AI-Driven Public Health Chatbot for Disease Awareness",
+      subTitle:"Quick guidance about symptoms, prevention and when to seek care. (Educational only)",
+      askBtn:"Ask about symptoms",exploreBtn:"Explore resources",
+      f1:"availability",f2:"topics covered",f3title:"Privacy",f3:"first design",
+      infoOnly:"Informational only",
+      greetMsg:"Hi, I’m Care Connect — your public health companion. I provide general information about diseases and prevention. I’m not a doctor.",
+      quick:["What are dengue symptoms?","How to prevent flu?","When should I see a doctor for fever?"],
+      footer:"Disclaimer: This tool is for educational purposes only and does not provide medical advice. For emergencies, call local emergency services.",
+      send:"Send",placeholder:"Type symptoms (e.g., fever, cough, fatigue)..."
+  },
+  hi:{brand:"एजिस हेल्थ",navHome:"होम",navResources:"संसाधन",
+      mainTitle:"रोग जागरूकता के लिए एआई संचालित सार्वजनिक स्वास्थ्य चैटबॉट",
+      subTitle:"लक्षण, रोकथाम और कब डॉक्टर से मिलें, इस पर त्वरित मार्गदर्शन। (केवल शैक्षिक)",
+      askBtn:"लक्षणों के बारे में पूछें",exploreBtn:"संसाधन देखें",
+      f1:"उपलब्धता",f2:"विषय शामिल",f3title:"गोपनीयता",f3:"पहला डिज़ाइन",
+      infoOnly:"केवल जानकारी",greetMsg:"नमस्ते, मैं एजिस हूँ – आपका सार्वजनिक स्वास्थ्य साथी। मैं बीमारियों और रोकथाम के बारे में सामान्य जानकारी प्रदान करता हूँ। मैं डॉक्टर नहीं हूँ।",
+      quick:["डेंगू के लक्षण क्या हैं?","फ्लू से कैसे बचें?","बुखार में डॉक्टर को कब दिखाएँ?"],
+      footer:"अस्वीकरण: यह उपकरण केवल शैक्षिक उद्देश्यों के लिए है और चिकित्सा सलाह प्रदान नहीं करता। आपात स्थिति में अपने स्थानीय आपातकालीन नंबर पर कॉल करें।",
+      send:"भेजें",placeholder:"लक्षण, बीमारी या रोकथाम के बारे में पूछें…"
+  },
+  or:{brand:"ଏଜିସ୍ ହେଲ୍ଥ୍",navHome:"ମୂଳ",navResources:"ସାଧନ",
+      mainTitle:"ରୋଗ ସଚେତନତା ପାଇଁ ଏଆଇ ଚାଳିତ ସ୍ୱାସ୍ଥ୍ୟ ଚ୍ୟାଟବଟ୍",
+      subTitle:"ଲକ୍ଷଣ, ପ୍ରତିରୋଧ ଓ କେବେ ଡାକ୍ତରଙ୍କୁ ଦେଖିବାକୁ – ଶିକ୍ଷାମୂଳକ ମାତ୍ର",
+      askBtn:"ଲକ୍ଷଣ ବିଷୟରେ ପଚାରନ୍ତୁ",exploreBtn:"ସାଧନ ଦେଖନ୍ତୁ",
+      f1:"ଉପଲବ୍ଧତା",f2:"ବିଷୟଗୁଡ଼ିକ",f3title:"ଗୋପନୀୟତା",f3:"ପ୍ରଥମ ଡିଜାଇନ୍",
+      infoOnly:"ତଥ୍ୟମୂଳକ",greetMsg:"ନମସ୍କାର, ମୁଁ ଏଜିସ୍ – ଆପଣଙ୍କ ସାର୍ବଜନିନ ସ୍ୱାସ୍ଥ୍ୟ ସହଚର। ମୁଁ ଡାକ୍ତର ନୁହେଁ।",
+      quick:["ଡେଙ୍ଗୁର ଲକ୍ଷଣ କ’ଣ?","ଫ୍ଲୁକୁ କିପରି ବଞ୍ଚିବେ?","ଜ୍ୱରରେ ଡାକ୍ତରଙ୍କୁ କେବେ ଦେଖିବି?"],
+      footer:"ଅସ୍ୱୀକୃତି: ଏହି ଉପକରଣଟି ଶିକ୍ଷାଗତ ଉଦ୍ଦେଶ୍ୟ ପାଇଁ ମାତ୍ର।",
+      send:"ପଠାନ୍ତୁ",placeholder:"ଲକ୍ଷଣ, ରୋଗ ବା ପ୍ରତିରୋଧ ବିଷୟରେ ପଚାରନ୍ତୁ…"
+  }
+};
+
+function setLanguage(lang){
+  const t = translations[lang];
+  document.getElementById("brand").textContent = t.brand;
+  document.getElementById("navHome").textContent = t.navHome;
+  document.getElementById("navResources").textContent = t.navResources;
+  document.getElementById("mainTitle").textContent = t.mainTitle;
+  document.getElementById("subTitle").textContent = t.subTitle;
+  document.getElementById("askSymptomsBtn").textContent = t.askBtn;
+  document.getElementById("exploreBtn").textContent = t.exploreBtn;
+  document.getElementById("f1").textContent = t.f1;
+  document.getElementById("f2").textContent = t.f2;
+  document.getElementById("f3title").textContent = t.f3title;
+  document.getElementById("f3").textContent = t.f3;
+  document.getElementById("infoOnly").textContent = t.infoOnly;
+  document.getElementById("greetMsg").textContent = t.greetMsg;
+  document.getElementById("footerNote").textContent = t.footer;
+  document.getElementById("sendBtn").textContent = t.send;
+  document.getElementById("userInput").placeholder = t.placeholder;
+
+  // quick buttons
+  const qDiv=document.getElementById("quickBtns");
+  qDiv.innerHTML="";
+  t.quick.forEach(q=>{
+    const b=document.createElement("button");
+    b.textContent=q;
+    b.onclick=()=>ask(q);
+    qDiv.appendChild(b);
+  });
+}
+document.getElementById("langSelect").addEventListener("change",e=>setLanguage(e.target.value));
+setLanguage("en");
+</script>
+
+<!-- --------- Chatbot symptom→disease script --------- -->
+<script>
+const chatArea = document.getElementById('chat-area');
+const inputEl  = document.getElementById('userInput');
+const sendBtn  = document.getElementById('sendBtn');
+const resultsDiv = document.getElementById('results');
+
+const FALLBACK_DATA = [
+  { "disease": "Dengue", "symptoms": "Fever, headache, joint pain", "prevention": "Avoid mosquito bites, use mosquito nets" },
+  { "disease": "Flu", "symptoms": "Fever, cough, sore throat, fatigue", "prevention": "Vaccination, hand hygiene, avoid close contact" },
+  { "disease": "Malaria", "symptoms": "High fever, chills, sweating", "prevention": "Mosquito control, bed nets, prophylactic medicine" },
+  { "disease": "COVID-19", "symptoms": "Fever, cough, difficulty breathing, loss of taste or smell", "prevention": "Mask, vaccination, hand hygiene, social distancing" },
+  { "disease": "Tuberculosis", "symptoms": "Chronic cough, chest pain, weight loss, night sweats", "prevention": "Vaccination (BCG), good ventilation, avoid contact with TB patients" },
+  { "disease": "Typhoid", "symptoms": "Fever, abdominal pain, diarrhea or constipation", "prevention": "Safe drinking water, hand hygiene, vaccination" },
+  { "disease": "Hepatitis A", "symptoms": "Fatigue, jaundice, abdominal pain, nausea", "prevention": "Vaccination, safe food and water" },
+  { "disease": "Hepatitis B", "symptoms": "Jaundice, fatigue, abdominal pain", "prevention": "Vaccination, safe sex, avoid sharing needles" },
+  { "disease": "Pneumonia", "symptoms": "Cough, fever, chest pain, shortness of breath", "prevention": "Vaccination, hand hygiene, good nutrition" },
+  { "disease": "Asthma", "symptoms": "Wheezing, coughing, shortness of breath", "prevention": "Avoid triggers, use inhalers, regular checkups" }
+];
+
+let diseases=[];
+fetch('diseases.json').then(r=>{if(!r.ok)throw Error() ;return r.json();})
+  .then(d=>diseases=d).catch(()=>diseases=FALLBACK_DATA);
+
+function tokenize(t){const stop=new Set(['i','have','the','a','and','or','with','of','in','on','for','to','is','are','my']);
+  return t.toLowerCase().replace(/[^\w\s]/g,' ').split(/\s+/).filter(x=>x&&!stop.has(x));
+}
+function reEscape(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+
+function findMatches(q){
+  const tokens=new Set(tokenize(q));
+  const matches=[];
+  diseases.forEach(d=>{
+    const text=(d.symptoms+' '+d.disease).toLowerCase();
+    const matched=[...tokens].filter(t=>new RegExp('\\b'+reEscape(t)+'\\b','i').test(text));
+    if(matched.length)matches.push({d,matched,score:matched.length});
+  });
+  matches.sort((a,b)=>b.score-a.score);
+  return matches;
+}
+
+function appendMessage(text,from='bot'){
+  const el=document.createElement('div');
+  el.className='msg '+(from==='bot'?'bot-bubble':'user-bubble');
+  el.innerText=text;
+  chatArea.appendChild(el);
+  chatArea.scrollTop=chatArea.scrollHeight;
+}
+
+function showResults(matches){
+  resultsDiv.innerHTML='';
+  if(!matches.length){resultsDiv.style.display='none';return;}
+  resultsDiv.style.display='grid';
+  matches.forEach(m=>{
+    const card=document.createElement('div');
+    card.className='dcard';
+    let sym=m.d.symptoms;
+    m.matched.forEach(t=>sym=sym.replace(new RegExp('('+reEscape(t)+')','ig'),'<mark>$1</mark>'));
+    card.innerHTML=`<h4>${m.d.disease}</h4>
+      <p><strong>Symptoms:</strong> ${sym}</p>
+      <p><strong>Prevention:</strong> ${m.d.prevention}</p>
+      <small>Matches: ${m.matched.join(', ')}</small>`;
+    card.onclick=()=>appendMessage(`${m.d.disease}\nSymptoms: ${m.d.symptoms}\nPrevention: ${m.d.prevention}`,'bot');
+    resultsDiv.appendChild(card);
+  });
+}
+
+function ask(q){
+  appendMessage(q,'user');
+  const m=findMatches(q);
+  if(!m.length){appendMessage("No close disease matches found. Try different keywords.",'bot');resultsDiv.style.display='none';}
+  else{appendMessage(`I found ${m.length} possible ${m.length>1?'conditions':'condition'}. Tap a card for details.`,'bot');showResults(m);}
+}
+
+sendBtn.onclick=()=>{if(inputEl.value.trim()){ask(inputEl.value.trim());inputEl.value='';}};
+inputEl.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();sendBtn.click();}};
+document.getElementById('askSymptomsBtn').onclick=()=>inputEl.focus();
+document.getElementById('exploreBtn').onclick=()=>alert('Add resource links here.');
+</script>
+
+</body>
+</html>
